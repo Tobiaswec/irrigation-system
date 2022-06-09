@@ -17,7 +17,7 @@ public class MqttController {
 
     @PostConstruct
     public void processSubscriptions() throws InterruptedException {
-        String subTopic="testSub";
+        String subTopic="moisture";
         IMqttMessageListener listener = new IMqttMessageListener() {
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
@@ -30,7 +30,7 @@ public class MqttController {
 
     @PostConstruct
     public void sendMessage(){
-        String pubTopic="testPub";
+        String pubTopic="water";
         String message = "testPub";
         mqttConfig.sendMessage(pubTopic,message);
     }
