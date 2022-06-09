@@ -4,11 +4,33 @@ services:
   mosquitto:
     image: eclipse-mosquitto
     container_name: mosquitto
-    network_mode: host
+    #network_mode: "host"
     volumes:
-      - ./mosquitto/conf:/mosquitto/conf
-      - ./mosquitto/data:/mosquitto/data
-      - ./mosquitto/log:/mosquitto/log
-    #ports:
-    #  - 1883:1833
-    #  - 8883:8883
+      - ./mosquitto/conf/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto/data/:/mosquitto/data/
+      - ./mosquitto/log/:/mosquitto/log/
+    ports:
+      - 1883:1883
+      - 9001:9001
+    networks:
+      - mqtt_net
+    user: 1883:1883
+    environment:
+      - PUID=1883
+      - PGID=1883
+
+  mqtt-service:
+    build:
+      context: ./mqtt-service
+    depends_on:
+      - mosquitto
+    image: mqtt-service
+    container_name: mqtt-service
+    ports:
+      - 8080:8080
+    networks:
+      - mqtt_net
+
+networks:
+  mqtt_net:
+    driver: bridge
