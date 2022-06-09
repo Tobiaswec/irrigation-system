@@ -3,3 +3,11 @@ server:
 
 mqtt:
   host: mosquitto
+spring:
+  data:
+    mongodb:
+      database: mqtt_data
+      username: root
+      password: root
+      port: 27017
+      host: mqtt-mongo-db

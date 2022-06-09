@@ -1,5 +1,25 @@
 server:
   port: 8080
 
+
 mqtt:
   host: localhost
+spring:
+  data:
+    mongodb:
+      database: mqtt_data
+      username: root
+      password: root
+      port: 27017
+      host: localhost
+      authentication-database: admin
+
+
+logging:
+  level:
+    arg:
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: debug

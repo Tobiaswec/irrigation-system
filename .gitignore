@@ -34,3 +34,5 @@ out/
 
 ### VS Code ###
 .vscode/
+/mongodb/logs/mongod.log
+/mosquitto/data/mosquitto.db

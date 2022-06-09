@@ -6,9 +6,9 @@ services:
     container_name: mosquitto
     #network_mode: "host"
     volumes:
-      - ./mosquitto/conf/mosquitto.conf:/mosquitto/config/mosquitto.conf
-      - ./mosquitto/data/:/mosquitto/data/
-      - ./mosquitto/log/:/mosquitto/log/
+      - './mosquitto/conf/mosquitto.conf:/mosquitto/config/mosquitto.conf'
+      - './mosquitto/data/:/mosquitto/data/'
+      - './mosquitto/log/:/mosquitto/log/'
     ports:
       - 1883:1883
       - 9001:9001
@@ -24,13 +24,38 @@ services:
       context: ./mqtt-service
     depends_on:
       - mosquitto
+      - mqtt-mongo-db
     image: mqtt-service
     container_name: mqtt-service
     ports:
       - 8080:8080
     networks:
       - mqtt_net
+      - mongo_net
+
+  mqtt-mongo-db:
+    image: mongo:latest
+    container_name: mqtt-mongo-db
+    volumes:
+      - './mongodb/logs/:/var/log/'
+      - './mongodb/config/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js'
+      - './mongodb/data/:/data/db/'
+      - './mongodb/config/mongod.conf:/etc/mongod.conf'
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    command:
+      - '--auth'
+      - '--config'
+      - '/etc/mongod.conf'
+    networks:
+      - mongo_net
 
 networks:
   mqtt_net:
+    driver: bridge
+  mongo_net:
     driver: bridge
