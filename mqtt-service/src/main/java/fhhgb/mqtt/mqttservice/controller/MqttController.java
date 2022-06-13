@@ -44,7 +44,7 @@ public class MqttController {
         mqttConfig.subscribe(subTopic, listener);
     }
 
-    @PostMapping("/sendMessage")
+    @PostMapping("/mqtt/sendMessage")
     public void sendMessage() {
         String pubTopic = "water";
         String message = "let it flow";

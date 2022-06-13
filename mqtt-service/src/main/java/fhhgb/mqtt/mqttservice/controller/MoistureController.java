@@ -16,7 +16,7 @@ public class MoistureController {
     @Autowired
     private MeasurementRepository repository;
 
-    @GetMapping("/getPercentage")
+    @GetMapping("/moisture/getPercentage")
     public double getMoisturePercentage(){
         Pageable pageable = PageRequest.of(0,1,Sort.Direction.DESC,"timestamp");
         Optional<MeasurementEntity> entity =  repository.findAll(pageable).getContent().stream().findFirst();
