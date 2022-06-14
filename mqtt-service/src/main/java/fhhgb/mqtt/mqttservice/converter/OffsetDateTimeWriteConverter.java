@@ -12,6 +12,7 @@ import java.util.Date;
 @Component
 @WritingConverter
 public class OffsetDateTimeWriteConverter implements Converter<OffsetDateTime, Date> {
+
     @Override
     public Date convert(OffsetDateTime source) {
         return new Date(source.toInstant().toEpochMilli());

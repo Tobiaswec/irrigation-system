@@ -11,9 +11,9 @@ import java.util.Date;
 @Component
 @ReadingConverter
 public class OffsetDateTimeReadConverter implements Converter<Date, OffsetDateTime> {
+
     @Override
     public OffsetDateTime convert(Date source) {
         return source.toInstant().atOffset(ZoneOffset.UTC);
     }
-
 }

@@ -9,6 +9,7 @@ import java.time.OffsetDateTime;
 
 @Document("measurements")
 public class MeasurementEntity {
+
     @Id
     private ObjectId id;
 

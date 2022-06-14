@@ -7,13 +7,13 @@ import fhhgb.mqtt.mqttservice.repository.MeasurementRepository;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
-import java.nio.ByteBuffer;
 
-@RestController("/mqtt")
+@RestController
 public class MqttController {
     @Autowired
     private MqttConfig mqttConfig;
@@ -21,9 +21,18 @@ public class MqttController {
     @Autowired
     private MeasurementRepository repository;
 
+    @Value("${mqtt.subTopic}")
+    private String subTopic;
+
+    @Value("${mqtt.pubTopic}")
+    private String pubTopic;
+
+    /**
+     * Subscribes on Topic during Startup
+     * Saves incoming measurements in DB
+     */
     @PostConstruct
-    public void processSubscriptions() throws InterruptedException {
-        String subTopic = "moisture";
+    public void processSubscriptions(){
         IMqttMessageListener listener = new IMqttMessageListener() {
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
@@ -34,7 +43,6 @@ public class MqttController {
                     entity.setMoisture(Double.parseDouble(payload));
                     entity.setPercentage(MoistureSensorConfig.getMoisturePercentage(entity.getMoisture()));
                     repository.save(entity);
-
                     System.out.println(payload);
                 }catch (NumberFormatException ex){
                     System.out.println("Input not a number");
@@ -44,11 +52,13 @@ public class MqttController {
         mqttConfig.subscribe(subTopic, listener);
     }
 
-    @PostMapping("/mqtt/sendMessage")
-    public void sendMessage() {
-        String pubTopic = "water";
-        String message = "let it flow";
-        mqttConfig.sendMessage(pubTopic, message);
+    /**
+     * publishes Message
+     */
+    @GetMapping("/waterPlant")
+    public void waterPlant() {
+        //message not relevant for subscriber - just activates water pump
+        mqttConfig.publishMessage(pubTopic, "let it flow");
     }
 
 }
