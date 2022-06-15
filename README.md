@@ -8,6 +8,7 @@ Die Wasserknappheit wird weltweit immer schlimmer und wir wollten mit diesem Pro
 Das System soll es ermöglichen eine Pflanze über Sprach-Input in verschiedenen Modi zu bewässern, aber auch die Feuchtigkeit der Erde bzw. 
 verschiedene statistische Kennzahlen darüber abzufragen. 
 ## Architektur
+![alt text](/images/architecture.png)
 
 ## Umsetzung
 
