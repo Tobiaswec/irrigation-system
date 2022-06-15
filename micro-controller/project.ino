@@ -16,32 +16,35 @@ WiFiClient client;
 PubSubClient mqttClient(client);
 
 int WATER_PORT = 4;
-int HUMIDITY_PORT = 2;
+int HUMIDITY_PORT = 34;
 
 void setup() {
    Serial.begin(9600);
 
+
   WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
   Serial.print("Connecting to WiFi ..");
-  while (WiFi.status() != WL_CONNECTED) {    
-    WiFi.begin(WIFI_SSID, WIFI_PASS);
+  while (WiFi.status() != WL_CONNECTED) {
+
+    Serial.println(".");
     delay(1000);
   }
   Serial.println("[WIFI] Connected to the network ");
   Serial.println(WIFI_SSID);
-  
+
   pinMode(WATER_PORT, OUTPUT);
-  pinMode(HUMIDITY_PORT, INPUT);
+  //pinMode(HUMIDITY_PORT, INPUT);
   //set default to closed == high
-  digitalWrite(WATER_PORT, HIGH);
+  digitalWrite(WATER_PORT, LOW);
 
   Serial.print("\n***Starting connection to MQTT broker: ");
   Serial.println(mqttServerAddress);
- 
+
   mqttClient.setServer(mqttServerAddress,mqttServerPort);
   mqttClient.setCallback(callback);
-  
-  Serial.println("UP AND RUNNING"); 
+
+  Serial.println("UP AND RUNNING");
 }
 
 void loop() {
@@ -53,12 +56,14 @@ void loop() {
       int val = analogRead(HUMIDITY_PORT);
       Serial.println("val = ");
       Serial.println(val);
+      Serial.println(analogRead(HUMIDITY_PORT));
+
       //650 dry af
-      // 330-360 wet as u re mums pussy
+      // 330-360 wet
       char msg[16];
       itoa(val,msg,10);
       mqttClient.publish(pubTopic, msg);
-      delay(3000);
+      delay(1000);
 }
 
 void reconnect() {
@@ -68,7 +73,7 @@ void reconnect() {
       Serial.println("connected");
       mqttClient.publish(pubTopic, "hello world again", true);
       Serial.println("outTopic published");
-      mqttClient.subscribe(subTopic);     
+      mqttClient.subscribe(subTopic);
     } else {
       Serial.print("failed, rc=");
       Serial.print(mqttClient.state());

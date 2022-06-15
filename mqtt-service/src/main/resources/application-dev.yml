@@ -2,10 +2,9 @@ server:
   port: 8080
 
 mqtt:
-  #host: mosquitto
-  host: test.mosquitto.org
-  subTopic: S2110454011/moisture
-  pubTopic: S2110454011/water
+  host: mosquitto
+  subTopic: moisture
+  pubTopic: water
 
 spring:
   data:
