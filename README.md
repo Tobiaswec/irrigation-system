@@ -131,7 +131,7 @@ Bei Aufruf dieses Intent wird die Pumpe für sechs Sekunden aktiviert.
 
 
 ##### utterances:
-![alt text](/images/waterStrongIntent.png)
+![alt text](/images/waterIntentStrong.png)
 
 ##### handler:
 ```js
