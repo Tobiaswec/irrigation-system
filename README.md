@@ -88,7 +88,7 @@ private IMqttClient createMQttClient(){
         return null;
     }
 ````
-Das Spring Web Service kommuniziert über den MQTT Broker und subskribiert dabei auf das Topic ```moisture``` um Messungen zu empfangen und published Instruktionen für den Arduino auf das Topic ```water```.
+Das Spring Web Service kommuniziert über den MQTT Broker mit dem Arduino und subskribiert dabei auf das Topic ```moisture``` um Messungen zu empfangen und published Instruktionen für den Arduino auf das Topic ```water```.
 
 Die empfangenen Messungen werden in der MongoDB Datenbank persistiert.
 ![alt text](/images/dbentries.png)
