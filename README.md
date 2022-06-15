@@ -26,6 +26,14 @@ erhält Instruktionen zum Starten der Wasserpumpe über einen MQTT Broker.
 
 ## Ergebnis
 
+### Feuchtigkeit ausgeben
+### avg Feuchtigkeit ausgeben
+### Pflanze bewässern
+### Pflanze starke bewässern
+
+Die Messungen werden in der Datenbank persistiert.
+![alt text](/images/dbentries.png)
+
 ## Conclusion
 
 ## Installationsanleitung
