@@ -1,5 +1,7 @@
-# irrigation-system
-Irrigation System realized with ESP32, MQTT, Spring
+
+<center><h1>Bewässerungssystem</h1></center>
+<center><h3>Julian Pichler,  Tobias Wecht</h3></center>
+
 
 ## Zielsetzung
 Ziel war es eine über einen Alexa-Skill steuerbare, Bewässerungsanlage zu bauen und durch die Automatisierung, der Bewässerung, Wasser zu sparen.
