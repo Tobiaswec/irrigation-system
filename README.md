@@ -24,6 +24,15 @@ erhält Instruktionen zum Starten der Wasserpumpe über einen MQTT Broker.
 
 ## Umsetzung
 
+### Schaltung
+Es wird eine 5V Wasserpume über ein 5V Relais mit dem 5V Pin(VIN) des ESP32 mit Spannung versorgt. Das Relais an sich wird einerseits über den 3.3V Pin des ESP32 mit Strom versorgt und wird über einen GPIO Pin geschalten. Dies geschieht im Code über ```digitalWrite(WATER_PORT, HIGH);```
+
+Der Bodenfeuchtigkeitssensor benötigt ebenfalls eine Versorgungsspannung von 5V welche über den 5V Pin(VIN) des ESP32 geliefert wird. Mit dem Befehl analogRead(PIN_NR) kann der aktuelle Wert des Sensors ausgelesen werden. Geliefert wird ein Wert zwischen 4095(komplett trocken) und 2200(Sensor in Wasser).
+
+### ESP32
+Auf diesen Microcontroller läuft ein Programm, welches sich zuerst mit dem WLAN verbindet und anschließend versucht sich mit dem MQTT-Broker zu verbinden. Ist dies erfolgreich geschehen, beginnt der ESP32 in einem Intervall von 3 Sekunden die aktuelle Feuchtigkeit der Erde auszulesen und über eine MQTT-Message an das topic ```/moisture``` zu senden. Weiters subscribed der ESP32 sich auf das Topic ```/water``` und reagiert auf einkommende Nachrichten mit einer Callback-Methode. In den Nachrichten in diesem Topic befindet sich im Body jeweils die Dauer mit der die Wasserpumpe aktiviert werden soll. In der Callback-Methode wird diese Dauer ausgelesen und das Relais anschließend genau für diese Dauer eingeschaltet.
+
+
 ## Ergebnis
 
 ### Feuchtigkeit ausgeben
