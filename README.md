@@ -27,7 +27,7 @@ erhält Instruktionen zum Starten der Wasserpumpe über einen MQTT Broker.
 ## Umsetzung
 
 ### Schaltung
-Es wird eine 5V Wasserpume über ein 5V Relais mit dem 5V Pin(VIN) des ESP32 mit Spannung versorgt. Das Relais an sich wird einerseits über den 3.3V Pin des ESP32 mit Strom versorgt und wird über einen GPIO Pin geschalten. Dies geschieht im Code über ```digitalWrite(WATER_PORT, HIGH);```
+Es wird eine 5V Wasserpumpe über ein 5V Relais mit dem 5V Pin(VIN) des ESP32 mit Spannung versorgt. Das Relais an sich wird einerseits über den 3.3V Pin des ESP32 mit Strom versorgt und wird über einen GPIO Pin geschalten. Dies geschieht im Code über ```digitalWrite(WATER_PORT, HIGH);```
 
 Der Bodenfeuchtigkeitssensor benötigt ebenfalls eine Versorgungsspannung von 5V welche über den 5V Pin(VIN) des ESP32 geliefert wird. Mit dem Befehl analogRead(PIN_NR) kann der aktuelle Wert des Sensors ausgelesen werden. Geliefert wird ein Wert zwischen 4095(komplett trocken) und 2200(Sensor in Wasser).
 
@@ -98,7 +98,7 @@ Die empfangenen Messungen werden in der MongoDB Datenbank persistiert.
 Um mit dem Alexa Skill zu kommunizieren werden Rest Calls benutzt. Im Server werden daher zwei Controller implementiert, welche die Messergebnisse in unterschiedlichen Representation zur Verfügung stellen.
 Zusätzlich kann das Senden einer Bewässerungsinstruktion an den ESP32 über einen Endpoint getriggert werden.
 ### Alexa Skill
-Für den Alexa-Skill wurden 4 Intents Angelegt:
+Für den Alexa-Skill wurden 4 Intents angelegt:
 
 #### WaterIntent
 Bei Aufruf dieses Intent wird die Pumpe für drei Sekunden aktiviert.
@@ -182,7 +182,7 @@ const CurrentMoistureIntentHandler = {
 
 
 #### AvgMoistureIntent
-Dieser Aufruf gibt die durschnittliche Feuchtigkeit der letzten 1000 Messungen in Prozent(%) aus.
+Dieser Aufruf gibt die durchschnittliche Feuchtigkeit der letzten 1000 Messungen in Prozent(%) aus.
 
 
 ##### utterances:
