@@ -7,11 +7,15 @@ char WIFI_PASS[] = "servas123";
 int status = WL_IDLE_STATUS;
 
 
-char mqttServerAddress[] = "test.mosquitto.org";
+//char mqttServerAddress[] = "test.mosquitto.org";
+//char pubTopic[]= "S2110454011/moisture";
+//char subTopic[]= "S2110454011/water";
+
+char mqttServerAddress[] = "90.146.147.20";
 int mqttServerPort = 1883;
 int msgCounter = 0;
-char pubTopic[]= "S2110454011/moisture";
-char subTopic[]= "S2110454011/water";
+char pubTopic[]= "moisture";
+char subTopic[]= "water";
 WiFiClient client;
 PubSubClient mqttClient(client);
 
@@ -34,8 +38,7 @@ void setup() {
   Serial.println(WIFI_SSID);
 
   pinMode(WATER_PORT, OUTPUT);
-  //pinMode(HUMIDITY_PORT, INPUT);
-  //set default to closed == high
+  //set default to closed == LOW
   digitalWrite(WATER_PORT, LOW);
 
   Serial.print("\n***Starting connection to MQTT broker: ");
@@ -53,17 +56,16 @@ void loop() {
         reconnect();
       }
       mqttClient.loop();
+      //readout Humidity Sensor
       int val = analogRead(HUMIDITY_PORT);
       Serial.println("val = ");
       Serial.println(val);
-      Serial.println(analogRead(HUMIDITY_PORT));
 
-      //650 dry af
-      // 330-360 wet
+      //publish mqtt message
       char msg[16];
       itoa(val,msg,10);
       mqttClient.publish(pubTopic, msg);
-      delay(1000);
+      delay(10000);
 }
 
 void reconnect() {
@@ -84,17 +86,21 @@ void reconnect() {
 
 
 void callback(char* topic, byte* payload, unsigned int length) {
+  //log message
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
   for (int i=0;i<length;i++) {
     Serial.print((char)payload[i]);
   }
+  //get message value
+  int duration;
+  std::memcpy(&duration, bytes, sizeof(int));
+
   Serial.println();
   Serial.println("FLOW");
   digitalWrite(WATER_PORT, HIGH);
-  delay(5000);
+  delay(duration);
   Serial.println("NOT FLOW");
   digitalWrite(WATER_PORT, LOW);
-  //delay(5000);
 }
