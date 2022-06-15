@@ -10,6 +10,18 @@ verschiedene statistische Kennzahlen darüber abzufragen.
 ## Architektur
 ![alt text](/images/architecture.png)
 
+Der Amazon Alexa Skill dient als Schnittstelle zum User. Der Skill kann Informationen zur momentanen oder durchschnittlichen Feuchtigkeit einer Pflanze abrufen und
+bietet zwei Modi zum Gießen.
+
+Das Spring Webservice verarbeitet die Requests des Alexa Skills und stellt die Daten der MongoDb bereit.
+Darüber hinaus speichert es die Messergebnisse des Arduinos in die Datenbank und schickt diesem, über den MQTT Broker,
+Instruktionen.
+
+Die Bewässerung und Messungen erfolgen über einen Arduino, 
+welcher mit einem Feuchtigkeitssensor und einer Wasserpumpe verbunden ist.
+Das IoT Device kommuniziert die Messungen und 
+erhält Instruktionen zum Starten der Wasserpumpe über einen MQTT Broker.
+
 ## Umsetzung
 
 ## Ergebnis
