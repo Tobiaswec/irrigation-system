@@ -31,6 +31,11 @@ Es wird eine 5V Wasserpumpe über ein 5V Relais mit dem 5V Pin(VIN) des ESP32 mi
 
 Der Bodenfeuchtigkeitssensor benötigt ebenfalls eine Versorgungsspannung von 5V welche über den 5V Pin(VIN) des ESP32 geliefert wird. Mit dem Befehl analogRead(PIN_NR) kann der aktuelle Wert des Sensors ausgelesen werden. Geliefert wird ein Wert zwischen 4095(komplett trocken) und 2200(Sensor in Wasser).
 
+Schaltungsaufbau:
+
+![alt text](/images/schaltung.jpg)
+
+
 ### ESP32
 Auf diesen Microcontroller läuft ein Programm, welches sich zuerst mit dem WLAN verbindet und anschließend versucht sich mit dem MQTT-Broker zu verbinden. Ist dies erfolgreich geschehen, beginnt der ESP32 in einem Intervall von 3 Sekunden die aktuelle Feuchtigkeit der Erde auszulesen und über eine MQTT-Message an das topic ```moisture``` zu senden. Weiters subscribed der ESP32 sich auf das Topic ```water``` und reagiert auf einkommende Nachrichten mit einer Callback-Methode. In den Nachrichten in diesem Topic befindet sich im Body jeweils die Dauer mit der die Wasserpumpe aktiviert werden soll. In der Callback-Methode wird diese Dauer ausgelesen und das Relais anschließend genau für diese Dauer eingeschaltet.
 
