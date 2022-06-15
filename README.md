@@ -1,5 +1,5 @@
 # irrigation-system
-Irrigation System realized with Arduino, MQTT, Spring
+Irrigation System realized with ESP32, MQTT, Spring
 
 ## Zielsetzung
 Ziel war es eine über einen Alexa-Skill steuerbare, Bewässerungsanlage zu bauen und durch die Automatisierung, der Bewässerung, Wasser zu sparen.
@@ -14,10 +14,10 @@ Der Amazon Alexa Skill dient als Schnittstelle zum User. Der Skill kann Informat
 bietet zwei Modi zum Gießen.
 
 Das Spring Webservice verarbeitet die Requests des Alexa Skills und stellt die Daten der MongoDb bereit.
-Darüber hinaus speichert es die Messergebnisse des Arduinos in die Datenbank und schickt diesem, über den MQTT Broker,
+Darüber hinaus speichert es die Messergebnisse des ESP32 in die Datenbank und schickt diesem, über den MQTT Broker,
 Instruktionen.
 
-Die Bewässerung und Messungen erfolgen über einen Arduino, 
+Die Bewässerung und Messungen erfolgen über einen ESP32, 
 welcher mit einem Feuchtigkeitssensor und einer Wasserpumpe verbunden ist.
 Das IoT Device kommuniziert die Messungen und 
 erhält Instruktionen zum Starten der Wasserpumpe über einen MQTT Broker.
@@ -88,13 +88,13 @@ private IMqttClient createMQttClient(){
         return null;
     }
 ````
-Das Spring Web Service kommuniziert über den MQTT Broker mit dem Arduino und subskribiert dabei auf das Topic ```moisture``` um Messungen zu empfangen und published Instruktionen für den Arduino auf das Topic ```water```.
+Das Spring Web Service kommuniziert über den MQTT Broker mit dem ESP32 und subskribiert dabei auf das Topic ```moisture``` um Messungen zu empfangen und published Instruktionen für den ESP32 auf das Topic ```water```.
 
 Die empfangenen Messungen werden in der MongoDB Datenbank persistiert.
 ![alt text](/images/dbentries.png)
 
 Um mit dem Alexa Skill zu kommunizieren werden Rest Calls benutzt. Im Server werden daher zwei Controller implementiert, welche die Messergebnisse in unterschiedlichen Representation zur Verfügung stellen.
-Zusätzlich kann das Senden einer Bewässerungsinstruktion an den Arduino über einen Endpoint getriggert werden.
+Zusätzlich kann das Senden einer Bewässerungsinstruktion an den ESP32 über einen Endpoint getriggert werden.
 
 ## Ergebnis
 
