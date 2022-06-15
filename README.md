@@ -30,8 +30,71 @@ Es wird eine 5V Wasserpume über ein 5V Relais mit dem 5V Pin(VIN) des ESP32 mit
 Der Bodenfeuchtigkeitssensor benötigt ebenfalls eine Versorgungsspannung von 5V welche über den 5V Pin(VIN) des ESP32 geliefert wird. Mit dem Befehl analogRead(PIN_NR) kann der aktuelle Wert des Sensors ausgelesen werden. Geliefert wird ein Wert zwischen 4095(komplett trocken) und 2200(Sensor in Wasser).
 
 ### ESP32
-Auf diesen Microcontroller läuft ein Programm, welches sich zuerst mit dem WLAN verbindet und anschließend versucht sich mit dem MQTT-Broker zu verbinden. Ist dies erfolgreich geschehen, beginnt der ESP32 in einem Intervall von 3 Sekunden die aktuelle Feuchtigkeit der Erde auszulesen und über eine MQTT-Message an das topic ```/moisture``` zu senden. Weiters subscribed der ESP32 sich auf das Topic ```/water``` und reagiert auf einkommende Nachrichten mit einer Callback-Methode. In den Nachrichten in diesem Topic befindet sich im Body jeweils die Dauer mit der die Wasserpumpe aktiviert werden soll. In der Callback-Methode wird diese Dauer ausgelesen und das Relais anschließend genau für diese Dauer eingeschaltet.
+Auf diesen Microcontroller läuft ein Programm, welches sich zuerst mit dem WLAN verbindet und anschließend versucht sich mit dem MQTT-Broker zu verbinden. Ist dies erfolgreich geschehen, beginnt der ESP32 in einem Intervall von 3 Sekunden die aktuelle Feuchtigkeit der Erde auszulesen und über eine MQTT-Message an das topic ```moisture``` zu senden. Weiters subscribed der ESP32 sich auf das Topic ```water``` und reagiert auf einkommende Nachrichten mit einer Callback-Methode. In den Nachrichten in diesem Topic befindet sich im Body jeweils die Dauer mit der die Wasserpumpe aktiviert werden soll. In der Callback-Methode wird diese Dauer ausgelesen und das Relais anschließend genau für diese Dauer eingeschaltet.
 
+### Mosquitto MQTT Broker
+Zuerst muss eine Mosquitto Server Konfiguration erstellt werden, in der Einstellungen für Port und
+Host sowie zur Authentifizierung und Persistierung getroffen werden.
+
+````editorconfig
+persistence true
+persistence_location /mosquitto/data/
+log_dest file /mosquitto/log/mosquitto.log
+
+listener 1883 0.0.0.0
+## Authentication ##
+allow_anonymous true
+````
+
+Anschließend kann Mosquitto MQTT Broker einfach als docker container gestartet werden.
+````dockerfile
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    volumes:
+      - './mosquitto/conf/mosquitto.conf:/mosquitto/config/mosquitto.conf'
+      - './mosquitto/data/:/mosquitto/data/'
+      - './mosquitto/log/:/mosquitto/log/'
+    ports:
+      - 1883:1883
+      - 9001:9001
+    networks:
+      - mqtt_net
+    user: 1883:1883
+    environment:
+      - PUID=1883
+      - PGID=1883
+````
+### Spring Web Service
+
+Das Service wurde in Java implementiert und für die MQTT Kommunikation wurde die Bibliothek ````org.eclipse.paho:org.eclipse.paho.client.mqttv3```` verwendet.
+Der MQTT Client zum subskribieren und senden von Nachrichten wurde über folgenden Code konfiguriert. 
+
+````java
+private IMqttClient createMQttClient(){
+        try {
+            String id = UUID.randomUUID().toString();
+            MqttClient client = new MqttClient("tcp://" + host + ":1883", id);
+            MqttConnectOptions options = new MqttConnectOptions();
+            options.setAutomaticReconnect(true);
+            options.setCleanSession(true);
+            options.setConnectionTimeout(120);
+            client.connect(options);
+            return client;
+        } catch (MqttException e) {
+            System.out.println("Connection to Broker failed!");
+            e.printStackTrace();
+        }
+        return null;
+    }
+````
+Das Spring Web Service kommuniziert über den MQTT Broker und subskribiert dabei auf das Topic ```moisture``` um Messungen zu empfangen und published Instruktionen für den Arduino auf das Topic ```water```.
+
+Die empfangenen Messungen werden in der MongoDB Datenbank persistiert.
+![alt text](/images/dbentries.png)
+
+Um mit dem Alexa Skill zu kommunizieren werden Rest Calls benutzt. Im Server werden daher zwei Controller implementiert, welche die Messergebnisse in unterschiedlichen Representation zur Verfügung stellen.
+Zusätzlich kann das Senden einer Bewässerungsinstruktion an den Arduino über einen Endpoint getriggert werden.
 
 ## Ergebnis
 
@@ -40,8 +103,7 @@ Auf diesen Microcontroller läuft ein Programm, welches sich zuerst mit dem WLAN
 ### Pflanze bewässern
 ### Pflanze starke bewässern
 
-Die Messungen werden in der Datenbank persistiert.
-![alt text](/images/dbentries.png)
+
 
 ## Conclusion
 
