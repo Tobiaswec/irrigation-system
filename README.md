@@ -217,10 +217,20 @@ const AvgMoistureIntentHandler = {
 
 ## Ergebnis
 
+### Aufbau
+![alt text](/images/schaltungReal.jpg)
+
 ### Feuchtigkeit ausgeben
+![alt text](/images/moisture.jpg)
+
 ### avg Feuchtigkeit ausgeben
+![alt text](/images/moistureAvg.jpg)
+
 ### Pflanze bewässern
+![alt text](/images/water.jpg)
+
 ### Pflanze starke bewässern
+![alt text](/images/waterStrong.jpg)
 
 
 
