@@ -233,8 +233,16 @@ const AvgMoistureIntentHandler = {
 ![alt text](/images/waterStrong.jpg)
 
 
-
 ## Conclusion
+
+### Spring Backend
+Implementierung des MQTT-Brokers mit der verwendeten Bibliothek gestaltete sich  einfach, aber war sehr code lastig.
+
+### Hardware
+War der Aufwendigste Teil dieses Projekts, da das Elektronik-Know-How nur eingeschränkt vorhanden war. Dieses hat sich aber während des Projekts verbessert.
+
+### Alexa Skill
+Die Developer-Console macht das Gestalten eines Skills sehr einfach. Die meisten nötigen EInstellungen sind über das UI möglich und es sind nur wenige Zeilen Code zu produzieren und die Dokumentation ist sehr gut.
 
 ## Installationsanleitung
 Das start.ps1 Skript oder manuel docker-compose ausführen.
