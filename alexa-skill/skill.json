@@ -1,0 +1,64 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "de-DE": {
+          "summary": "water your plants with alexa",
+          "examplePhrases": [
+            "Alexa öffne durstig nach wasser",
+            "wie geht es meiner Pflanze?",
+            "gieße die Pflanze"
+          ],
+          "keywords": [],
+          "name": "WaterMe",
+          "description": "water your plants with alexa and keep yourself up to date regarding the moisture of your plant",
+          "smallIconUri": "file://assets/images/de-DE_smallIconUri.png",
+          "largeIconUri": "file://assets/images/de-DE_largeIconUri.png"
+        }
+      },
+      "automaticDistribution": {
+        "isActive": false
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Sample Testing Instructions.",
+      "category": "DEVICE_TRACKING",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:us-east-1:989252907085:function:f724a976-aba4-43d9-88e7-564bab1322cb:Release_0"
+        },
+        "interfaces": [],
+        "regions": {
+          "EU": {
+            "endpoint": {
+              "uri": "arn:aws:lambda:eu-west-1:989252907085:function:f724a976-aba4-43d9-88e7-564bab1322cb:Release_0"
+            }
+          },
+          "NA": {
+            "endpoint": {
+              "uri": "arn:aws:lambda:us-east-1:989252907085:function:f724a976-aba4-43d9-88e7-564bab1322cb:Release_0"
+            }
+          },
+          "FE": {
+            "endpoint": {
+              "uri": "arn:aws:lambda:us-west-2:989252907085:function:f724a976-aba4-43d9-88e7-564bab1322cb:Release_0"
+            }
+          }
+        }
+      }
+    },
+    "manifestVersion": "1.0",
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "locales": {
+        "de-DE": {}
+      },
+      "containsAds": false,
+      "isExportCompliant": true,
+      "isChildDirected": false,
+      "usesPersonalInfo": false
+    }
+  }
+}

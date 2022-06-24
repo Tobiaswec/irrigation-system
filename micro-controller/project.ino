@@ -39,7 +39,7 @@ void setup() {
 
   pinMode(WATER_PORT, OUTPUT);
   //set default to closed == LOW
-  digitalWrite(WATER_PORT, LOW);
+  digitalWrite(WATER_PORT, HIGH);
 
   Serial.print("\n***Starting connection to MQTT broker: ");
   Serial.println(mqttServerAddress);
@@ -65,7 +65,7 @@ void loop() {
       char msg[16];
       itoa(val,msg,10);
       mqttClient.publish(pubTopic, msg);
-      delay(10000);
+      delay(3000);
 }
 
 void reconnect() {
@@ -90,17 +90,39 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
+
+
+  char* s="";
   for (int i=0;i<length;i++) {
     Serial.print((char)payload[i]);
+    char x= (char)payload[i];
+
+    s=appendCharToCharArray(s,x);
   }
+
+   Serial.println();
+   Serial.println(s);
   //get message value
-  int duration;
-  std::memcpy(&duration, bytes, sizeof(int));
+  int duration=atoi(s);
+  Serial.println(duration);
 
   Serial.println();
   Serial.println("FLOW");
-  digitalWrite(WATER_PORT, HIGH);
+  digitalWrite(WATER_PORT, LOW);
   delay(duration);
   Serial.println("NOT FLOW");
-  digitalWrite(WATER_PORT, LOW);
+  digitalWrite(WATER_PORT, HIGH);
+}
+
+char* appendCharToCharArray(char* array, char a)
+{
+    size_t len = strlen(array);
+
+    char* ret = new char[len+2];
+
+    strcpy(ret, array);
+    ret[len] = a;
+    ret[len+1] = '\0';
+
+    return ret;
 }

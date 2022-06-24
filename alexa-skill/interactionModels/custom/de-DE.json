@@ -1,0 +1,85 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "durstig nach wasser",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "HelloWorldIntent",
+          "slots": [],
+          "samples": [
+            "hallo",
+            "wie geht\u0027s dir",
+            "sag hallo welt",
+            "sag hallo"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "WaterIntent",
+          "slots": [],
+          "samples": [
+            "bewässere die Blume",
+            "bewässere die Pflanze",
+            "gieße die Blume",
+            "gieß die Blume",
+            "gieße die Pflanze",
+            "gieß die Pflanze"
+          ]
+        },
+        {
+          "name": "CurrentMoistureIntent",
+          "slots": [],
+          "samples": [
+            "Wie ist die Feuchtigkeit meiner Blume",
+            "Wie ist die Feuchtigkeit meiner Pflanze",
+            "Wie feucht ist die Erde meiner Pflanze",
+            "Muss ich die Pflanze gießen"
+          ]
+        },
+        {
+          "name": "AvgMoistureIntent",
+          "slots": [],
+          "samples": [
+            "wie geht es meiner Pflanze im durchschnitt",
+            "wie ist die durchschnittliche Feuchtigkeit meiner Pflanze",
+            "sag mir die durchschnittliche Feuchtigkeit"
+          ]
+        },
+        {
+          "name": "WaterStrongIntent",
+          "slots": [],
+          "samples": [
+            "Shiggy Aquaknarre",
+            "Turtok Aquaknarre",
+            "Aquaknarre",
+            "überflute die blume",
+            "überflute die pflanze",
+            "gieß die blume sehr ausgiebig",
+            "gieß die pflanze sehr ausgiebig"
+          ]
+        }
+      ],
+      "types": []
+    }
+  },
+  "version": "13"
+}
